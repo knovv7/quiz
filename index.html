@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ensino superior e desigualdades territoriais no interior da Amazônia paraense</title>
+<meta name="description" content="Questionário de pesquisa com estudantes de graduação do Sul e Sudeste do Pará.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f1f4ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1612" media="(prefers-color-scheme: dark)">
+<!-- Prévia do link ao compartilhar no WhatsApp, Instagram etc. -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Questionário: ensino superior no Sul e Sudeste do Pará">
+<meta property="og:description" content="Pesquisa com estudantes de graduação sobre acesso e permanência no ensino superior. 10 perguntas, de 5 a 10 minutos.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236b1f5d'/%3E%3Crect x='5' y='14' width='6.5' height='4' rx='2' fill='%23dba24a'/%3E%3Crect x='12.75' y='14' width='6.5' height='4' rx='2' fill='%23dba24a'/%3E%3Crect x='20.5' y='14' width='6.5' height='4' rx='2' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: uma coluna estreita, uma pergunta por tela; no topo, a trilha de progresso dividida pelas quatro seções do questionário */
+:root {
+  --bg: #f1f4ef;
+  --surface: #ffffff;
+  --ink: #15241d;
+  --muted: #56675e;
+  --line: #d3dbd2;
+  --accent: #6b1f5d;        /* açaí */
+  --accent-hover: #571a4c;
+  --accent-ink: #ffffff;
+  --accent-soft: #f5e9f2;
+  --done: #a8701c;          /* ocre */
+  --error: #b42318;
+  --error-ink: #ffffff;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --radius: 10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1612; --surface: #15201b; --ink: #e5ece7; --muted: #9aaba1; --line: #2c3b34;
+    --accent: #d996c9; --accent-hover: #e8b3db; --accent-ink: #250a1f; --accent-soft: #2f1c2b;
+    --done: #dba24a; --error: #ff8a7a; --error-ink: #2a0905;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1612; --surface: #15201b; --ink: #e5ece7; --muted: #9aaba1; --line: #2c3b34;
+  --accent: #d996c9; --accent-hover: #e8b3db; --accent-ink: #250a1f; --accent-soft: #2f1c2b;
+  --done: #dba24a; --error: #ff8a7a; --error-ink: #2a0905;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 42rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: max(20px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-bottom, 0px));
+}
+
+/* Topo e trilha de progresso */
+.topo { display: grid; gap: .875rem; padding-bottom: 1.75rem; }
+.topo-linha { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.marca, .contador, .eyebrow, .meta, .item-num, .contagem, .qtd {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.marca { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.contador { font-size: .8125rem; color: var(--muted); white-space: nowrap; }
+.contador b { color: var(--ink); font-weight: 500; }
+.trilha { display: flex; gap: 10px; }
+.trilha-grupo { display: flex; gap: 3px; min-width: 0; }
+.seg { flex: 1; height: 6px; border-radius: 3px; background: var(--line); transition: background-color .2s; }
+.seg.feito { background: var(--done); }
+.seg.atual { background: var(--accent); }
+
+/* Telas */
+main { outline: none; min-width: 0; }
+.tela { display: grid; gap: 1.25rem; align-content: start; min-width: 0; animation: entrar .28s ease-out; }
+@keyframes entrar { from { opacity: 0; transform: translateY(6px); } }
+.cabeca { display: grid; gap: .5rem; }
+.eyebrow { margin: 0; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font-family: var(--f-display); text-wrap: balance; }
+h1:focus { outline: none; }
+.titulo-pergunta { font-size: clamp(1.4rem, 1.05rem + 1.5vw, 1.95rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.012em; }
+.titulo-inicio { font-size: clamp(2rem, 1.25rem + 3.2vw, 3.1rem); font-weight: 700; line-height: 1.06; letter-spacing: -0.022em; }
+.nota { margin: 0; font-size: .9375rem; color: var(--muted); }
+.selo {
+  justify-self: start;
+  font-family: var(--f-mono); font-size: .75rem; letter-spacing: .04em;
+  padding: .125rem .5rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
+}
+.texto-intro { margin: 0; max-width: 34rem; font-size: 1.125rem; color: var(--muted); }
+.meta { margin: 0; font-size: .8125rem; color: var(--muted); }
+
+/* Roteiro da tela inicial */
+.roteiro { list-style: none; margin: 0; padding: 1rem 0; display: grid; gap: .625rem; border-block: 1px solid var(--line); }
+.roteiro li { display: grid; grid-template-columns: 3.25rem 1fr auto; align-items: center; gap: .75rem; font-size: .9375rem; }
+.mini { display: flex; gap: 3px; }
+.mini span { width: 12px; height: 6px; border-radius: 3px; background: var(--done); }
+.qtd { font-size: .8125rem; color: var(--muted); }
+.publico { margin: 0; max-width: 34rem; font-size: .9375rem; color: var(--muted); }
+.aviso {
+  display: grid; gap: .75rem;
+  padding: 1rem 1.125rem;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+}
+.aviso p { margin: 0; }
+
+/* Opções */
+.grupo { display: grid; gap: .5rem; min-width: 0; }
+.opcoes { display: grid; gap: .5rem; }
+.opcao {
+  position: relative;
+  display: flex; align-items: center; gap: .875rem;
+  min-height: 3.25rem;
+  padding: .75rem 1rem;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color .15s, background-color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.opcao:hover { border-color: var(--muted); }
+.opcao.marcada { border-color: var(--accent); background: var(--accent-soft); }
+.opcao:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.opcao input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.tecla {
+  flex: none;
+  width: 1.75rem; height: 1.75rem;
+  display: grid; place-items: center;
+  font-family: var(--f-mono); font-size: .8125rem; font-weight: 500;
+  color: var(--muted);
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.opcao.marcada .tecla { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.rotulo { min-width: 0; line-height: 1.35; }
+.outro-campo { padding-left: 2.75rem; }
+
+/* Escala de 5 pontos: em linha no desktop, em lista no celular */
+@media (min-width: 40rem) {
+  .escala { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .escala .opcao { flex-direction: column; justify-content: flex-start; text-align: center; gap: .5rem; padding: .875rem .5rem; }
+  .escala .rotulo { font-size: .9375rem; }
+}
+
+/* Campos de texto */
+.campo {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: .75rem 1rem;
+}
+textarea.campo { min-height: 10rem; resize: vertical; line-height: 1.5; }
+.campo::placeholder { color: var(--muted); opacity: .8; }
+.campo:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.contagem { margin: -.75rem 0 0; font-size: .75rem; color: var(--muted); text-align: right; }
+
+.erro { margin: 0; min-height: 1.5em; color: var(--error); font-weight: 700; }
+.erro:empty { min-height: 0; }
+
+/* Botões */
+.acoes { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding-top: .25rem; }
+.btn {
+  appearance: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 3rem;
+  padding: .75rem 1.375rem;
+  font: 700 1rem/1.2 var(--f-body);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+.btn-pri { background: var(--accent); color: var(--accent-ink); }
+.btn-pri:hover { background: var(--accent-hover); }
+.btn-sec { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-sec:hover { border-color: var(--muted); }
+.btn-perigo { background: var(--error); color: var(--error-ink); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-link {
+  appearance: none; background: none; border: 0; padding: .25rem 0;
+  font: inherit; font-size: .9375rem; font-weight: 700;
+  color: var(--accent);
+  text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer;
+}
+.btn-link.perigo { color: var(--error); }
+.btn:focus-visible, .btn-link:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dica { font-size: .8125rem; color: var(--muted); }
+@media (hover: none) { .dica { display: none; } }
+
+/* Revisão */
+.lista-revisao { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.item-revisao {
+  display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: .25rem .75rem; align-items: start;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.item-num { padding-top: .1rem; font-size: .8125rem; color: var(--muted); }
+.item-pergunta { margin: 0; font-size: .9375rem; line-height: 1.4; color: var(--muted); }
+.item-resposta { margin: .25rem 0 0; font-weight: 700; white-space: pre-wrap; overflow-wrap: anywhere; }
+.item-resposta.vazia { font-weight: 400; font-style: italic; color: var(--muted); }
+@media (max-width: 30rem) {
+  .item-revisao { grid-template-columns: 1.75rem minmax(0, 1fr); }
+  .item-revisao .btn-link { grid-column: 2; justify-self: start; }
+}
+
+/* Área do pesquisador */
+.painel {
+  display: grid; gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.total { display: flex; align-items: baseline; gap: .625rem; flex-wrap: wrap; }
+.numero-grande { font-family: var(--f-display); font-size: clamp(3rem, 2rem + 5vw, 4.5rem); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.painel p { margin: 0; }
+.confirmar { display: grid; gap: .75rem; padding: 1rem 1.125rem; border: 1.5px solid var(--error); border-radius: var(--radius); }
+.confirmar p { margin: 0; font-weight: 700; }
+
+/* Rodapé e aviso flutuante */
+.rodape {
+  display: flex; justify-content: space-between; gap: .5rem 1rem; flex-wrap: wrap;
+  padding-top: 3rem;
+  font-size: .8125rem; color: var(--muted);
+}
+.rodape a { color: var(--muted); text-underline-offset: 3px; }
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  padding: .625rem 1rem;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 8px;
+  font-size: .9375rem;
+  box-shadow: 0 6px 24px rgb(0 0 0 / .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tela { animation: none; }
+  .seg, .opcao, .tecla, .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topo">
+    <div class="topo-linha">
+      <span class="marca">Ensino superior · Amazônia paraense</span>
+      <span class="contador" id="contador" hidden></span>
+    </div>
+    <div class="trilha" id="trilha" role="progressbar" aria-label="Progresso do questionário" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" hidden></div>
+  </header>
+
+  <main id="tela">
+    <noscript>
+      <p>Ative o JavaScript do navegador para responder ao questionário.</p>
+    </noscript>
+  </main>
+
+  <footer class="rodape">
+    <span>Pesquisa acadêmica · Sul e Sudeste do Pará</span>
+    <a href="#pesquisador" id="link-pesquisador">Área do pesquisador</a>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const SECOES = {
+    perfil: "Perfil acadêmico",
+    acesso: "Acesso e permanência",
+    percepcao: "Percepções sobre a região",
+    aberta: "Sua experiência"
+  };
+
+  const PERGUNTAS = [
+    {
+      id: "q1", secao: "perfil", tipo: "escolha", obrigatoria: true,
+      texto: "Em qual município do Sul ou Sudeste do Pará você realiza sua graduação?",
+      opcoes: ["Marabá", "Parauapebas", "Redenção", "Tucuruí", "Xinguara"],
+      outro: { rotulo: "Outro", placeholder: "Nome do município", erro: "Escreva o nome do município para continuar." }
+    },
+    {
+      id: "q2", secao: "perfil", tipo: "escolha", obrigatoria: true,
+      texto: "Em qual tipo de instituição de ensino superior você estuda?",
+      opcoes: ["Pública federal", "Pública estadual", "Privada"]
+    },
+    {
+      id: "q3", secao: "perfil", tipo: "escolha", obrigatoria: true,
+      texto: "Qual é a modalidade do seu curso?",
+      opcoes: ["Presencial", "Semipresencial", "A distância (EaD)"]
+    },
+    {
+      id: "q4", secao: "acesso", tipo: "escolha", obrigatoria: true,
+      texto: "Qual situação melhor representa sua realidade de acesso ao ensino superior?",
+      opcoes: [
+        "Moro no município onde estudo e não enfrento grandes dificuldades de deslocamento",
+        "Preciso me deslocar de outro município ou da zona rural",
+        "Precisei mudar de município para estudar",
+        "Estudo a distância e enfrento dificuldades de acesso à internet ou à tecnologia",
+        "Estudo a distância e não enfrento dificuldades significativas de acesso"
+      ]
+    },
+    {
+      id: "q5", secao: "acesso", tipo: "escolha", obrigatoria: true,
+      texto: "Qual é a principal dificuldade que pode comprometer sua permanência na graduação?",
+      opcoes: [
+        "Dificuldades financeiras",
+        "Conciliar trabalho e estudos",
+        "Transporte, distância ou deslocamento",
+        "Acesso à internet, equipamentos ou infraestrutura",
+        "Dificuldades acadêmicas ou falta de apoio estudantil",
+        "Não enfrento dificuldades significativas"
+      ]
+    },
+    {
+      id: "q6", secao: "percepcao", tipo: "escala", obrigatoria: true,
+      texto: "Na sua percepção, estudantes de municípios menores ou de áreas rurais enfrentam mais dificuldades para acessar e concluir o ensino superior?",
+      opcoes: ["Discordo totalmente", "Discordo parcialmente", "Nem concordo nem discordo", "Concordo parcialmente", "Concordo totalmente"],
+      extra: "Não sei avaliar"
+    },
+    {
+      id: "q7", secao: "percepcao", tipo: "escala", obrigatoria: true,
+      texto: "Em que medida você considera que seu curso atende às necessidades sociais, econômicas e profissionais da região onde vive?",
+      opcoes: ["Não atende", "Atende pouco", "Atende parcialmente", "Atende muito", "Atende totalmente"],
+      extra: "Não sei avaliar"
+    },
+    {
+      id: "q8", secao: "aberta", tipo: "texto", obrigatoria: false,
+      texto: "De que maneira o lugar onde você mora influencia suas oportunidades e dificuldades para cursar o ensino superior?"
+    },
+    {
+      id: "q9", secao: "aberta", tipo: "texto", obrigatoria: true,
+      texto: "Que tipos de apoio ou mudanças ajudariam você e outros estudantes da região a permanecer na graduação até a conclusão do curso?"
+    },
+    {
+      id: "q10", secao: "aberta", tipo: "texto", obrigatoria: true,
+      texto: "Como você acredita que o ensino superior pode contribuir para melhorar as condições de vida, as oportunidades de trabalho e o desenvolvimento do Sul e Sudeste do Pará?"
+    }
+  ];
+
+  const TOTAL = PERGUNTAS.length;
+  const LETRAS = "ABCDEFGHI";
+  const VALOR_OUTRO = "__outro";
+  const LIMITE_TEXTO = 2000;
+  const ATRASO_AVANCO = 320;
+  const CHAVE_RASCUNHO = "pesquisa-es-amazonia:rascunho";
+  const CHAVE_RESPOSTAS = "pesquisa-es-amazonia:respostas";
+
+  const tela = document.getElementById("tela");
+  const trilha = document.getElementById("trilha");
+  const contador = document.getElementById("contador");
+  const linkPesquisador = document.getElementById("link-pesquisador");
+  const toast = document.getElementById("toast");
+
+  const estado = { tela: "inicio", indice: 0, respostas: {}, deRevisao: false, iniciadoEm: null };
+  let timerAvanco = 0;
+  let timerRascunho = 0;
+  let timerToast = 0;
+  let origemEscolha = null;
+
+  /* ---------- armazenamento local ---------- */
+
+  function ler(chave, padrao) {
+    try {
+      const v = localStorage.getItem(chave);
+      return v ? JSON.parse(v) : padrao;
+    } catch { return padrao; }
+  }
+  function gravar(chave, valor) {
+    try { localStorage.setItem(chave, JSON.stringify(valor)); return true; } catch { return false; }
+  }
+  function remover(chave) {
+    try { localStorage.removeItem(chave); } catch {}
+  }
+  function lerRespostas() {
+    const lista = ler(CHAVE_RESPOSTAS, []);
+    return Array.isArray(lista) ? lista : [];
+  }
+  function salvarRascunho() {
+    clearTimeout(timerRascunho);
+    if (!PERGUNTAS.some(q => valorFinal(q))) return;
+    gravar(CHAVE_RASCUNHO, {
+      tela: estado.tela === "revisao" ? "revisao" : "pergunta",
+      indice: estado.indice,
+      respostas: estado.respostas,
+      iniciadoEm: estado.iniciadoEm
+    });
+  }
+
+  /* ---------- utilidades ---------- */
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+  function dois(n) { return String(n).padStart(2, "0"); }
+  function formatarData(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (isNaN(d)) return String(iso);
+    return `${dois(d.getDate())}/${dois(d.getMonth() + 1)}/${d.getFullYear()} ${dois(d.getHours())}:${dois(d.getMinutes())}`;
+  }
+  function hoje() {
+    const d = new Date();
+    return `${d.getFullYear()}-${dois(d.getMonth() + 1)}-${dois(d.getDate())}`;
+  }
+  function novoId() {
+    try { if (crypto.randomUUID) return crypto.randomUUID(); } catch {}
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+  }
+  function valorFinal(q) {
+    const v = estado.respostas[q.id];
+    if (v === VALOR_OUTRO) return String(estado.respostas[q.id + "_outro"] || "").trim();
+    return String(v || "").trim();
+  }
+  function erroDe(q) {
+    const v = estado.respostas[q.id];
+    if (q.tipo === "texto") return q.obrigatoria && !valorFinal(q) ? "Escreva sua resposta para continuar." : "";
+    if (!v) return q.obrigatoria ? "Escolha uma opção para continuar." : "";
+    if (v === VALOR_OUTRO && !valorFinal(q)) return q.outro.erro;
+    return "";
+  }
+  function avisar(msg) {
+    toast.textContent = msg;
+    toast.hidden = false;
+    clearTimeout(timerToast);
+    timerToast = setTimeout(() => { toast.hidden = true; }, 3200);
+  }
+
+  /* ---------- telas ---------- */
+
+  function gruposDeSecao() {
+    const grupos = [];
+    PERGUNTAS.forEach((q, i) => {
+      const ultimo = grupos[grupos.length - 1];
+      if (ultimo && ultimo.secao === q.secao) ultimo.indices.push(i);
+      else grupos.push({ secao: q.secao, indices: [i] });
+    });
+    return grupos;
+  }
+
+  function telaInicio() {
+    const rascunho = ler(CHAVE_RASCUNHO, null);
+    const temRascunho = rascunho && rascunho.respostas && Object.keys(rascunho.respostas).length > 0;
+    const roteiro = gruposDeSecao().map(g => `
+      <li>
+        <span class="mini" aria-hidden="true">${g.indices.map(() => "<span></span>").join("")}</span>
+        <span>${SECOES[g.secao]}</span>
+        <span class="qtd">${g.indices.length} ${g.indices.length === 1 ? "pergunta" : "perguntas"}</span>
+      </li>`).join("");
+
+    const acoes = temRascunho
+      ? `<div class="aviso">
+           <p>Você já começou a responder neste aparelho. Suas respostas foram guardadas.</p>
+           <div class="acoes">
+             <button type="button" class="btn btn-pri" data-acao="continuar">Continuar de onde parei</button>
+             <button type="button" class="btn btn-sec" data-acao="comecar">Começar do zero</button>
+           </div>
+         </div>`
+      : `<div class="acoes"><button type="button" class="btn btn-pri" data-acao="comecar">Começar</button></div>`;
+
+    return `
+      <section class="tela" aria-labelledby="titulo">
+        <div class="cabeca">
+          <p class="eyebrow">Questionário de pesquisa</p>
+          <h1 id="titulo" class="titulo-inicio" tabindex="-1">Ensino superior e desigualdades territoriais no interior da Amazônia paraense</h1>
+        </div>
+        <p class="texto-intro">Responda considerando sua experiência como estudante de graduação. Não existem respostas certas ou erradas. Sua opinião é importante para a pesquisa.</p>
+        <p class="meta">${TOTAL} perguntas · 5 a 10 minutos · 1 opcional</p>
+        <ol class="roteiro" aria-label="Seções do questionário">${roteiro}</ol>
+        <p class="publico">Para estudantes de graduação de Marabá, Parauapebas, Redenção, Tucuruí, Xinguara e demais municípios do Sul e Sudeste do Pará.</p>
+        ${acoes}
+      </section>`;
+  }
+
+  function opcaoHtml(q, valor, rotulo, k, tecla, atalhos) {
+    const marcada = estado.respostas[q.id] === valor;
+    return `
+      <label class="opcao${marcada ? " marcada" : ""}" for="${q.id}-${k}">
+        <input type="radio" name="${q.id}" id="${q.id}-${k}" value="${esc(valor)}" data-atalhos="${atalhos}"${marcada ? " checked" : ""}>
+        <span class="tecla" aria-hidden="true">${tecla}</span>
+        <span class="rotulo">${esc(rotulo)}</span>
+      </label>`;
+  }
+
+  function telaPergunta() {
+    const i = estado.indice;
+    const q = PERGUNTAS[i];
+    const ultima = i === TOTAL - 1;
+    let corpo = "";
+    let nota = "";
+
+    if (q.tipo === "texto") {
+      const v = estado.respostas[q.id] || "";
+      corpo = `
+        <label for="campo-${q.id}" class="sr-only">Sua resposta</label>
+        <textarea id="campo-${q.id}" class="campo" rows="6" maxlength="${LIMITE_TEXTO}" placeholder="Escreva com suas palavras" aria-describedby="erro contagem">${esc(v)}</textarea>
+        <p class="contagem" id="contagem">${v.length} / ${LIMITE_TEXTO}</p>`;
+      if (!q.obrigatoria) nota = `<span class="selo">Opcional</span>`;
+    } else if (q.tipo === "escala") {
+      const pontos = q.opcoes.map((o, k) => opcaoHtml(q, o, o, k, k + 1, String(k + 1))).join("");
+      const extra = opcaoHtml(q, q.extra, q.extra, q.opcoes.length, "0", "0");
+      corpo = `
+        <div class="grupo" role="radiogroup" aria-labelledby="titulo" aria-required="true">
+          <div class="opcoes escala">${pontos}</div>
+          <div class="opcoes">${extra}</div>
+        </div>`;
+      nota = `<p class="nota">Escolha um ponto da escala de 1 a 5.</p>`;
+    } else {
+      let ops = q.opcoes.map((o, k) => opcaoHtml(q, o, o, k, LETRAS[k], `${LETRAS[k]} ${k + 1}`)).join("");
+      let campoOutro = "";
+      if (q.outro) {
+        const k = q.opcoes.length;
+        ops += opcaoHtml(q, VALOR_OUTRO, q.outro.rotulo, k, LETRAS[k], `${LETRAS[k]} ${k + 1}`);
+        const aberto = estado.respostas[q.id] === VALOR_OUTRO;
+        campoOutro = `
+          <div class="outro-campo"${aberto ? "" : " hidden"}>
+            <label for="${q.id}-outro-texto" class="sr-only">${esc(q.outro.placeholder)}</label>
+            <input type="text" id="${q.id}-outro-texto" class="campo" data-outro="1" maxlength="120" autocomplete="off"
+              placeholder="${esc(q.outro.placeholder)}" value="${esc(estado.respostas[q.id + "_outro"] || "")}">
+          </div>`;
+      }
+      corpo = `<div class="grupo opcoes" role="radiogroup" aria-labelledby="titulo" aria-required="true">${ops}${campoOutro}</div>`;
+    }
+
+    const botoes = estado.deRevisao
+      ? `<button type="submit" class="btn btn-pri">Salvar e voltar à revisão</button>`
+      : `<button type="button" class="btn btn-sec" data-acao="voltar">Voltar</button>
+         <button type="submit" class="btn btn-pri">${ultima ? "Revisar respostas" : "Próxima"}</button>`;
+    const dica = q.tipo === "texto"
+      ? "Ctrl + Enter para continuar"
+      : "Teclas " + (q.tipo === "escala" ? "1 a 5" : "A, B, C…") + " escolhem · Enter avança";
+
+    return `
+      <form class="tela" id="form-pergunta" novalidate>
+        <div class="cabeca">
+          <p class="eyebrow">${SECOES[q.secao]}</p>
+          <h1 id="titulo" class="titulo-pergunta" tabindex="-1">${esc(q.texto)}</h1>
+          ${nota}
+        </div>
+        ${corpo}
+        <p class="erro" id="erro" role="alert"></p>
+        <div class="acoes">
+          ${botoes}
+          <span class="dica">${dica}</span>
+        </div>
+      </form>`;
+  }
+
+  function telaRevisao() {
+    const itens = PERGUNTAS.map((q, i) => {
+      const r = valorFinal(q);
+      return `
+        <li class="item-revisao">
+          <span class="item-num">${dois(i + 1)}</span>
+          <div>
+            <p class="item-pergunta">${esc(q.texto)}</p>
+            <p class="item-resposta${r ? "" : " vazia"}">${r ? esc(r) : "Sem resposta"}</p>
+          </div>
+          <button type="button" class="btn-link" data-acao="editar" data-indice="${i}" aria-label="Alterar a resposta da pergunta ${i + 1}">Alterar</button>
+        </li>`;
+    }).join("");
+
+    return `
+      <section class="tela" aria-labelledby="titulo">
+        <div class="cabeca">
+          <p class="eyebrow">Revisão</p>
+          <h1 id="titulo" class="titulo-pergunta" tabindex="-1">Confira suas respostas antes de concluir</h1>
+        </div>
+        <ol class="lista-revisao">${itens}</ol>
+        <p class="erro" id="erro" role="alert"></p>
+        <div class="acoes">
+          <button type="button" class="btn btn-sec" data-acao="voltar-ultima">Voltar</button>
+          <button type="button" class="btn btn-pri" data-acao="concluir">Concluir questionário</button>
+        </div>
+      </section>`;
+  }
+
+  function telaFim() {
+    return `
+      <section class="tela" aria-labelledby="titulo">
+        <div class="cabeca">
+          <p class="eyebrow">Questionário concluído</p>
+          <h1 id="titulo" class="titulo-inicio" tabindex="-1">Obrigado por participar</h1>
+        </div>
+        <p class="texto-intro">Suas respostas ajudam a entender como o lugar onde se vive influencia o acesso e a permanência no ensino superior no Sul e Sudeste do Pará.</p>
+        <div class="acoes">
+          <button type="button" class="btn btn-sec" data-acao="comecar">Iniciar nova resposta</button>
+        </div>
+      </section>`;
+  }
+
+  function telaDados() {
+    const lista = lerRespostas();
+    const n = lista.length;
+    const ultima = n ? formatarData(lista[n - 1].enviado_em) : "";
+    const off = n ? "" : " disabled";
+
+    return `
+      <section class="tela" aria-labelledby="titulo">
+        <div class="cabeca">
+          <p class="eyebrow">Área do pesquisador</p>
+          <h1 id="titulo" class="titulo-pergunta" tabindex="-1">Respostas salvas neste aparelho</h1>
+        </div>
+        <div class="painel">
+          <div class="total">
+            <span class="numero-grande">${n}</span>
+            <span>${n === 1 ? "resposta concluída" : "respostas concluídas"}</span>
+          </div>
+          <p class="nota">${n ? `Última em ${ultima}.` : "Nenhum questionário foi concluído neste navegador ainda."}</p>
+          <div class="acoes">
+            <button type="button" class="btn btn-pri" data-acao="baixar-csv"${off}>Baixar planilha (CSV)</button>
+            <button type="button" class="btn btn-sec" data-acao="copiar"${off}>Copiar para planilha</button>
+            <button type="button" class="btn btn-sec" data-acao="baixar-json"${off}>Baixar JSON</button>
+          </div>
+        </div>
+        <p class="publico">As respostas ficam guardadas só no navegador deste aparelho. Baixe a planilha com frequência e antes de limpar os dados do navegador. O CSV abre no Excel, no LibreOffice e no Google Planilhas.</p>
+        ${n ? `
+        <div>
+          <button type="button" class="btn-link perigo" data-acao="pedir-apagar" id="pedir-apagar">Apagar todas as respostas</button>
+          <div class="confirmar" id="confirmar" hidden>
+            <p>Apagar ${n} ${n === 1 ? "resposta" : "respostas"} deste aparelho? Isso não pode ser desfeito.</p>
+            <div class="acoes">
+              <button type="button" class="btn btn-perigo" data-acao="apagar">Apagar</button>
+              <button type="button" class="btn btn-sec" data-acao="cancelar-apagar">Cancelar</button>
+            </div>
+          </div>
+        </div>` : ""}
+        <div class="acoes">
+          <button type="button" class="btn btn-sec" data-acao="inicio">Voltar ao questionário</button>
+        </div>
+      </section>`;
+  }
+
+  /* ---------- renderização ---------- */
+
+  function montarTrilha() {
+    trilha.innerHTML = gruposDeSecao().map(g =>
+      `<div class="trilha-grupo" style="flex:${g.indices.length}" title="${SECOES[g.secao]}">` +
+      g.indices.map(i => `<span class="seg" data-i="${i}"></span>`).join("") +
+      `</div>`
+    ).join("");
+  }
+
+  function atualizarTopo() {
+    const emPergunta = estado.tela === "pergunta";
+    const emRevisao = estado.tela === "revisao";
+    trilha.hidden = contador.hidden = !(emPergunta || emRevisao);
+    linkPesquisador.hidden = !(estado.tela === "inicio" || estado.tela === "fim");
+
+    trilha.querySelectorAll(".seg").forEach(s => {
+      const i = Number(s.dataset.i);
+      const atual = emPergunta && i === estado.indice;
+      s.classList.toggle("atual", atual);
+      s.classList.toggle("feito", !atual && Boolean(valorFinal(PERGUNTAS[i])));
+    });
+
+    if (emPergunta) {
+      contador.innerHTML = `Pergunta <b>${dois(estado.indice + 1)}</b> de ${TOTAL}`;
+      trilha.setAttribute("aria-valuenow", estado.indice + 1);
+      trilha.setAttribute("aria-valuetext", `Pergunta ${estado.indice + 1} de ${TOTAL}`);
+    } else if (emRevisao) {
+      contador.textContent = "Revisão";
+      trilha.setAttribute("aria-valuenow", TOTAL);
+      trilha.setAttribute("aria-valuetext", "Revisão das respostas");
+    }
+  }
+
+  function render() {
+    clearTimeout(timerAvanco);
+    const telas = { inicio: telaInicio, pergunta: telaPergunta, revisao: telaRevisao, fim: telaFim, dados: telaDados };
+    tela.innerHTML = telas[estado.tela]();
+    atualizarTopo();
+    window.scrollTo(0, 0);
+
+    const area = tela.querySelector("textarea");
+    if (area && matchMedia("(pointer: fine)").matches) {
+      area.focus({ preventScroll: true });
+      area.setSelectionRange(area.value.length, area.value.length);
+    } else {
+      tela.querySelector("h1")?.focus({ preventScroll: true });
+    }
+  }
+
+  function mostrarErro(msg) {
+    const el = tela.querySelector("#erro");
+    if (el) el.textContent = msg;
+    const alvo = tela.querySelector(".outro-campo:not([hidden]) input, textarea, input[type=radio]:checked, input[type=radio]");
+    alvo?.focus();
+  }
+  function limparErro() {
+    const el = tela.querySelector("#erro");
+    if (el && el.textContent) el.textContent = "";
+  }
+
+  /* ---------- fluxo ---------- */
+
+  function iniciar() {
+    remover(CHAVE_RASCUNHO);
+    Object.assign(estado, { tela: "pergunta", indice: 0, respostas: {}, deRevisao: false, iniciadoEm: new Date().toISOString() });
+    render();
+  }
+
+  function continuar() {
+    const r = ler(CHAVE_RASCUNHO, null) || {};
+    estado.respostas = r.respostas && typeof r.respostas === "object" ? r.respostas : {};
+    estado.indice = Math.min(Math.max(Number(r.indice) || 0, 0), TOTAL - 1);
+    estado.iniciadoEm = r.iniciadoEm || new Date().toISOString();
+    estado.deRevisao = false;
+    estado.tela = r.tela === "revisao" ? "revisao" : "pergunta";
+    render();
+  }
+
+  function avancar() {
+    clearTimeout(timerAvanco);
+    if (estado.tela !== "pergunta") return;
+    const erro = erroDe(PERGUNTAS[estado.indice]);
+    if (erro) { mostrarErro(erro); return; }
+    if (estado.deRevisao || estado.indice === TOTAL - 1) {
+      estado.deRevisao = false;
+      estado.tela = "revisao";
+    } else {
+      estado.indice++;
+    }
+    salvarRascunho();
+    render();
+  }
+
+  function voltar() {
+    if (estado.indice > 0) estado.indice--;
+    else estado.tela = "inicio";
+    salvarRascunho();
+    render();
+  }
+
+  function escolher(input) {
+    const q = PERGUNTAS[estado.indice];
+    const automatico = origemEscolha !== null;
+    origemEscolha = null;
+
+    estado.respostas[q.id] = input.value;
+    tela.querySelectorAll(".opcao").forEach(l => l.classList.toggle("marcada", l.querySelector("input").checked));
+    limparErro();
+
+    const ehOutro = input.value === VALOR_OUTRO;
+    const campoOutro = tela.querySelector(".outro-campo");
+    if (campoOutro) {
+      campoOutro.hidden = !ehOutro;
+      if (ehOutro) campoOutro.querySelector("input").focus();
+    }
+
+    salvarRascunho();
+    atualizarTopo();
+    clearTimeout(timerAvanco);
+    if (automatico && !ehOutro) timerAvanco = setTimeout(avancar, ATRASO_AVANCO);
+  }
+
+  function digitar(el) {
+    const q = PERGUNTAS[estado.indice];
+    if (el.dataset.outro) estado.respostas[q.id + "_outro"] = el.value;
+    else estado.respostas[q.id] = el.value;
+    const c = tela.querySelector("#contagem");
+    if (c && el.tagName === "TEXTAREA") c.textContent = `${el.value.length} / ${LIMITE_TEXTO}`;
+    limparErro();
+    clearTimeout(timerRascunho);
+    timerRascunho = setTimeout(() => { salvarRascunho(); atualizarTopo(); }, 400);
+  }
+
+  function concluir() {
+    const pendente = PERGUNTAS.findIndex(q => erroDe(q));
+    if (pendente >= 0) {
+      Object.assign(estado, { tela: "pergunta", indice: pendente, deRevisao: true });
+      render();
+      mostrarErro(erroDe(PERGUNTAS[pendente]));
+      return;
+    }
+    const registro = { id: novoId(), enviado_em: new Date().toISOString(), iniciado_em: estado.iniciadoEm || "" };
+    PERGUNTAS.forEach(q => { registro[q.id] = valorFinal(q); });
+
+    const lista = lerRespostas();
+    lista.push(registro);
+    if (!gravar(CHAVE_RESPOSTAS, lista)) {
+      mostrarErro("Não foi possível salvar neste navegador. Saia da navegação anônima ou libere o armazenamento de dados do site e tente de novo.");
+      return;
+    }
+    remover(CHAVE_RASCUNHO);
+    Object.assign(estado, { tela: "fim", indice: 0, respostas: {}, deRevisao: false, iniciadoEm: null });
+    render();
+  }
+
+  /* ---------- exportação ---------- */
+
+  const COLUNAS = [
+    ["id", "ID"],
+    ["enviado_em", "Concluído em"],
+    ["iniciado_em", "Iniciado em"],
+    ...PERGUNTAS.map((q, i) => [q.id, `${i + 1}. ${q.texto}`])
+  ];
+
+  function celulaSegura(v) {
+    const s = v == null ? "" : String(v);
+    return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;   // evita que a planilha trate a resposta como fórmula
+  }
+  function valorColuna(r, chave) {
+    return chave.endsWith("_em") ? formatarData(r[chave]) : r[chave];
+  }
+  function gerarCsv(lista) {
+    const cel = v => `"${celulaSegura(v).replace(/"/g, '""')}"`;
+    const linhas = [COLUNAS.map(c => cel(c[1])).join(";")];
+    lista.forEach(r => linhas.push(COLUNAS.map(c => cel(valorColuna(r, c[0]))).join(";")));
+    return "﻿" + linhas.join("\r\n");
+  }
+  function gerarTabela(lista) {
+    const cel = v => celulaSegura(v).replace(/[\t\r\n]+/g, " ");
+    return [COLUNAS.map(c => cel(c[1])), ...lista.map(r => COLUNAS.map(c => cel(valorColuna(r, c[0]))))]
+      .map(l => l.join("\t")).join("\n");
+  }
+
+  function baixar(nome, conteudo, tipo) {
+    try {
+      const url = URL.createObjectURL(new Blob([conteudo], { type: tipo }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nome;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      avisar(`Download iniciado: ${nome}`);
+    } catch {
+      avisar("Este navegador não permitiu o download. Use “Copiar para planilha”.");
+    }
+  }
+
+  async function copiar(texto) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      avisar("Copiado. Cole na célula A1 de uma planilha.");
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = texto;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch {}
+      ta.remove();
+      avisar(ok ? "Copiado. Cole na célula A1 de uma planilha." : "Não foi possível copiar. Use “Baixar planilha (CSV)”.");
+    }
+  }
+
+  /* ---------- eventos ---------- */
+
+  const ACOES = {
+    comecar: iniciar,
+    continuar,
+    voltar,
+    inicio() { estado.tela = "inicio"; render(); },
+    editar(b) { Object.assign(estado, { tela: "pergunta", indice: Number(b.dataset.indice), deRevisao: true }); render(); },
+    "voltar-ultima"() { Object.assign(estado, { tela: "pergunta", indice: TOTAL - 1, deRevisao: false }); render(); },
+    concluir,
+    "baixar-csv"() { baixar(`respostas-ensino-superior-${hoje()}.csv`, gerarCsv(lerRespostas()), "text/csv;charset=utf-8"); },
+    "baixar-json"() {
+      const dados = { perguntas: PERGUNTAS.map(q => ({ id: q.id, texto: q.texto })), respostas: lerRespostas() };
+      baixar(`respostas-ensino-superior-${hoje()}.json`, JSON.stringify(dados, null, 2), "application/json");
+    },
+    copiar() { copiar(gerarTabela(lerRespostas())); },
+    "pedir-apagar"() {
+      tela.querySelector("#pedir-apagar").hidden = true;
+      tela.querySelector("#confirmar").hidden = false;
+      tela.querySelector("#confirmar .btn-sec").focus();
+    },
+    "cancelar-apagar"() {
+      tela.querySelector("#confirmar").hidden = true;
+      const b = tela.querySelector("#pedir-apagar");
+      b.hidden = false;
+      b.focus();
+    },
+    apagar() {
+      remover(CHAVE_RESPOSTAS);
+      render();
+      avisar("Respostas apagadas deste aparelho.");
+    }
+  };
+
+  tela.addEventListener("click", e => {
+    const b = e.target.closest("[data-acao]");
+    if (b && ACOES[b.dataset.acao]) ACOES[b.dataset.acao](b);
+  });
+  tela.addEventListener("pointerdown", e => {
+    if (e.target.closest(".opcao")) origemEscolha = "ponteiro";
+  });
+  tela.addEventListener("change", e => {
+    if (e.target.matches("input[type=radio]")) escolher(e.target);
+  });
+  tela.addEventListener("input", e => {
+    if (e.target.matches("textarea, input[type=text]")) digitar(e.target);
+  });
+  tela.addEventListener("submit", e => {
+    e.preventDefault();
+    avancar();
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Enter") origemEscolha = null;
+    if (estado.tela !== "pergunta") return;
+    const alvo = e.target;
+
+    if (e.key === "Enter") {
+      if (alvo.tagName === "TEXTAREA") {
+        if (e.ctrlKey || e.metaKey) { e.preventDefault(); avancar(); }
+        return;
+      }
+      if (alvo.tagName === "BUTTON" || alvo.tagName === "A") return;
+      e.preventDefault();
+      avancar();
+      return;
+    }
+
+    if (alvo.matches?.("textarea, input[type=text]") || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key.length !== 1) return;
+    const tecla = e.key.toUpperCase();
+    const input = [...tela.querySelectorAll("input[type=radio]")]
+      .find(r => r.dataset.atalhos.split(" ").includes(tecla));
+    if (!input) return;
+    e.preventDefault();
+    input.checked = true;
+    input.focus();
+    origemEscolha = "atalho";
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+
+  linkPesquisador.addEventListener("click", e => {
+    e.preventDefault();
+    estado.tela = "dados";
+    render();
+  });
+  window.addEventListener("hashchange", () => {
+    if (location.hash === "#pesquisador") { estado.tela = "dados"; render(); }
+  });
+
+  montarTrilha();
+  if (location.hash === "#pesquisador") estado.tela = "dados";
+  render();
+})();
+</script>
+</body>
+</html>
